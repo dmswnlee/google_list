@@ -1,0 +1,88 @@
+@use '../abstracts/_mixins' as *;
+@use '../abstracts/_responsive' as *;
+
+.home {
+   height: 80vh;
+   @include center;
+   flex-direction: column;
+
+   .logo {
+      margin-bottom: 10px;
+   }
+
+   .search-bar {
+      position: relative;
+      width: 100%;
+      height: 60px;
+      border: 1px solid #eaeaea;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      padding: 10px;
+
+      .icon {
+         display: none;
+      }
+
+      p {
+         font-size: 18px;
+         text-transform: capitalize;
+         white-space: nowrap;
+         color: transparent;
+         margin: 0;
+         @include position;
+
+         &::before {
+            content: 'Google List에 오신 걸 환영합니다!';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            color: black;
+            overflow: hidden;
+            border-right: 3px solid black;
+            animation: typing 3s steps(25);
+         }
+      }
+   }
+}
+
+@keyframes typing {
+   0% {
+      width: 0%;
+   }
+   100% {
+      width: 100%;
+   }
+}
+
+@include responsive(tablet) {
+   .search-bar {
+      width: 600px;
+      font-size: 24px;
+
+      .icon {
+         display: block;
+      }
+
+      p {
+         font-size: 24px;
+      }
+   }
+}
+
+@include responsive(desktop) {
+   .search-bar {
+      width: 800px;
+      font-size: 30px;
+
+      .icon {
+         display: block;
+      }
+
+      p {
+         font-size: 30px;
+      }
+   }
+}
