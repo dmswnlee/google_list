@@ -48,13 +48,15 @@
 }
 
 @include responsive(desktop) {
-   .tab-menu {
-      .menu-btn {
-         width: 250px;
-      }
+   .nav {
+      .tab-menu {
+         .menu-btn {
+            width: 250px;
+         }
 
-      .menu-active {
-         width: 250px;
+         .menu-active {
+            width: 250px;
+         }
       }
    }
 }
