@@ -1,5 +1,5 @@
 import React from 'react';
-import imgURL from '../assets/logo.svg';
+import logo from '../assets/logo.svg';
 import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
@@ -12,7 +12,7 @@ export default function Home() {
    return (
       <div className="home">
          <h1 className="logo">
-            <img src={imgURL} alt="logo" />
+            <img src={logo} alt="logo" />
          </h1>
          <div className="search-bar">
             <span className="icon material-symbols-outlined">search</span>
