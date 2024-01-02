@@ -3,7 +3,7 @@
 @use '../abstracts/_responsive' as *;
 
 .home {
-   height: 80vh;
+   height: $page-height;
    @include center;
    flex-direction: column;
    gap: 20px;

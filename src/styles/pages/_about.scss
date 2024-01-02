@@ -2,7 +2,7 @@
 @use '../abstracts/variables' as *;
 
 .about {
-   height: 80vh;
+   height: $page-height;
    @include center;
 
    .profile {
