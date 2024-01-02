@@ -1,3 +1,4 @@
+@use '../abstracts/variables' as *;
 @use '../abstracts/_mixins' as *;
 @use '../abstracts/_responsive' as *;
 
@@ -5,16 +6,17 @@
    height: 80vh;
    @include center;
    flex-direction: column;
+   gap: 20px;
 
    .logo {
-      margin-bottom: 10px;
+      margin: 0;
    }
 
    .search-bar {
       position: relative;
       width: 100%;
       height: 60px;
-      border: 1px solid #eaeaea;
+      border: 1px solid $border;
       border-radius: 50px;
       display: flex;
       align-items: center;
@@ -41,12 +43,19 @@
             width: 100%;
             height: 100%;
             padding-bottom: 5px;
-            color: black;
+            color: $main-text;
             overflow: hidden;
-            border-right: 3px solid black;
+            border-right: 3px solid $main-text;
             animation: typing 3s steps(25);
          }
       }
+   }
+
+   button {
+      padding: 15px;
+      border-radius: 10px;
+      background-color: $primary-yellow;
+      color: $white;
    }
 }
 
