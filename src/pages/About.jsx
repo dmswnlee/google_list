@@ -1,6 +1,6 @@
 import React from 'react';
 import profile_photo from '../assets/profile_ photo.png';
-import { about } from '../data/about';
+import { about } from '../utils/about';
 
 export default function About() {
    const { name, email, blog, github } = about;

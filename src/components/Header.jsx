@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { tabMenu } from '../data/tabMenu';
+import { tabMenu } from '../utils/tabMenu';
 import { Link } from 'react-router-dom';
 
 export default function Header() {
@@ -41,7 +41,7 @@ export default function Header() {
                   <p>https://googleList.com</p>
                </div>
                <div className="user-name">
-                  <p>은주</p>
+                  <p>E</p>
                </div>
             </div>
          </header>
