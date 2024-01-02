@@ -1,0 +1,22 @@
+@use '../abstracts/mixins' as *;
+@use '../abstracts/variables' as *;
+
+.not-found {
+   height: $page-height;
+   @include center;
+   flex-direction: column;
+   gap: 20px;
+
+   h1{
+    font-size: 120px;
+    margin: 0;
+
+    span {
+      font-size: 110px;
+    }
+   }
+
+   p {
+    font-size: 24px;
+  }
+}
