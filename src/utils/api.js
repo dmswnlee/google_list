@@ -1,16 +1,19 @@
-const API_KEY = KDT7_GrZ1eYBo;
-const USER_NAME = KDT7_LeeEunJoo;
-const HEADERS = {
-   'content-type': 'application/json',
-   APIKEY: API_KEY,
-   username: USER_NAME,
-};
+import axios from 'axios';
+
+const axiosCreate = axios.create({
+   baseURL: import.meta.env.VITE_URL,
+   headers: {
+      'Content-Type': 'application/json',
+      apikey: import.meta.env.VITE_API_KEY,
+      username: 'KDT7_LeeEunJoo',
+   },
+});
 
 export async function getTodos() {
    try {
-      const res = await axios.get('https://asia-northeast3-heropy-api.cloudfunctions.net/api/todos');
+      const res = await axiosCreate.get('/todos');
 
-      return res.data;
+      console.log(res.data);
    } catch (err) {
       console.error('Error:', err);
    }
@@ -18,17 +21,12 @@ export async function getTodos() {
 
 export async function addTodos(title, order) {
    try {
-      const res = await axios({
-         url: 'https://asia-northeast3-heropy-api.cloudfunctions.net/api/todos',
-         method: 'POST',
-         headers: HEADERS,
-         data: {
-            title: title,
-            order: order,
-         },
+      const res = await axiosCreate.post('/todos', {
+         title,
+         order,
       });
-      // console.log(res.data);
-      return res.data;
+
+      console.log(res.data);
    } catch (err) {
       console.error('Error:', err);
    }
@@ -36,18 +34,12 @@ export async function addTodos(title, order) {
 
 export async function editTodos(title, done, order, id) {
    try {
-      const res = await axios({
-         url: `https://asia-northeast3-heropy-api.cloudfunctions.net/api/todos/${id}`,
-         method: 'PUT',
-         headers: HEADERS,
-         data: {
-            title: title,
-            done: done,
-            order: order,
-         },
+      const res = await axiosCreate.put(`todos/${id}`, {
+         title,
+         done,
+         order,
       });
-      // console.log(res.data);
-      return res.data;
+      console.log(res.data);
    } catch (err) {
       console.error('Error:', err);
    }
@@ -55,13 +47,12 @@ export async function editTodos(title, done, order, id) {
 
 export async function deleteTodos(id) {
    try {
-      const res = await axios({
-         url: `https://asia-northeast3-heropy-api.cloudfunctions.net/api/todos/${id}`,
-         method: 'DELETE',
-         headers: HEADERS,
+      const res = await axiosCreate.delete(`/todos/${id}`, {
+         data: {
+            id,
+         },
       });
-      // console.log(res.data);
-      return res.data;
+      console.log(res.data);
    } catch (err) {
       console.error('Error:', err);
    }
