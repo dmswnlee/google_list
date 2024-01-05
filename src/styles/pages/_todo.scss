@@ -1,0 +1,9 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/_mixins' as *;
+
+.todo {
+   height: $page-height;
+   @include end;
+   flex-direction: column;
+   gap: 20px;
+}
