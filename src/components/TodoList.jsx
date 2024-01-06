@@ -2,8 +2,10 @@ import React, { useEffect, useState, useRef } from 'react';
 import TodoEditor from './TodoEditor';
 import TodoItem from './TodoItem';
 import axiosCreate from '../utils/api';
+import LoadingBar from './LoadingBar';
 
 export default function TodoList({ filter }) {
+   const [loading, setLoading] = useState(true);
    const [todos, setTodos] = useState([]);
    const orderRef = useRef(0);
 
@@ -26,6 +28,7 @@ export default function TodoList({ filter }) {
          const res = await axiosCreate.get('/todos');
 
          setTodos(res.data);
+         setLoading(false);
          console.log(res.data);
       } catch (err) {
          console.error('Error:', err);
@@ -109,20 +112,22 @@ export default function TodoList({ filter }) {
 
    return (
       <div className="todo-container">
+         {loading ? <LoadingBar /> : null}
          <div className="todo-search">
             <input type="text" placeholder="검색어를 입력하세요" value={search} onChange={onChangeSearch} />
          </div>
          <ul className="list">
-            {filtered && filterTodos().map(todo => (
-               <TodoItem
-                  key={todo.id}
-                  todo={todo}
-                  onUpdate={onUpdate}
-                  onDelete={onDelete}
-                  onEdit={onEdit}
-                  getTodos={getTodos}
-               />
-            ))}
+            {filtered &&
+               filterTodos().map(todo => (
+                  <TodoItem
+                     key={todo.id}
+                     todo={todo}
+                     onUpdate={onUpdate}
+                     onDelete={onDelete}
+                     onEdit={onEdit}
+                     getTodos={getTodos}
+                  />
+               ))}
          </ul>
          <TodoEditor onCreate={onCreate} />
          <div className="todo-total">
