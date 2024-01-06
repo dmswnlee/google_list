@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function TodoEditModal({ todo, onEdit }) {
@@ -16,6 +16,7 @@ export default function TodoEditModal({ todo, onEdit }) {
 
    const handleEdit = () => {
       onEdit(id, done, text);
+      handleModal();
    };
 
    return (
@@ -31,14 +32,14 @@ export default function TodoEditModal({ todo, onEdit }) {
                   <div className="edit-date">
                      <p>
                         <span className="material-symbols-outlined">check</span>
-                        생성일:
+                        {`생성일:  ${editDate(todo.createdAt)}`}
                      </p>
                      <p>
                         <span className="material-symbols-outlined">edit</span>
-                        수정일:
+                        {`수정일:  ${editDate(todo.updatedAt)}`}
                      </p>
                   </div>
-                  <textarea id={id} value={text} onChange={handleEditChange}></textarea>
+                  <textarea id={id} defaultValue={title} onChange={handleEditChange}></textarea>
                   <div className="edit-btn">
                      <button onClick={handleEdit}>저장</button>
                      <button onClick={handleModal}>닫기</button>
@@ -48,4 +49,16 @@ export default function TodoEditModal({ todo, onEdit }) {
          )}
       </>
    );
+}
+
+function editDate(time) {
+   const date = {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+   };
+
+   return new Date(time).toLocaleDateString('ko-KR', date);
 }
