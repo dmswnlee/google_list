@@ -4,8 +4,7 @@ import TodoEditModal from './TodoEditModal';
 export default function TodoItem({ todo, onUpdate, onDelete, onEdit }) {
    const { id, done, title } = todo;
 
-   const handleChange = () => {
-      //const done = e.target.checked ? '완료' : '미완료';
+   const handleChange = (e) => {
       onUpdate(id, done, title);
    };
 
@@ -16,7 +15,9 @@ export default function TodoItem({ todo, onUpdate, onDelete, onEdit }) {
    return (
       <li className="todo-item">
          <input type="checkbox" id={id} checked={done} onChange={handleChange} />
-         <label htmlFor={id}>{title}</label>
+         <label htmlFor={id} className={done === true ? 'checked' : ''}>
+            {title}
+         </label>
          <TodoEditModal todo={todo} onEdit={onEdit} />
          <button onClick={handleDelete}>
             <span className="icon material-symbols-outlined">delete</span>

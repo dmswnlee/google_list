@@ -3,7 +3,7 @@ import TodoEditor from './TodoEditor';
 import TodoItem from './TodoItem';
 import axiosCreate from '../utils/api';
 
-export default function TodoList({ filters }) {
+export default function TodoList({ filter }) {
    const [todos, setTodos] = useState([]);
    const orderRef = useRef(0);
 
@@ -15,10 +15,10 @@ export default function TodoList({ filters }) {
 
    const filterTodos = () => {
       if (search === '') {
-         return todos;
+         return filtered;
       }
 
-      return todos.filter(todo => todo.title.toLowerCase().includes(search.toLowerCase()));
+      return filtered.filter(todo => todo.title.toLowerCase().includes(search.toLowerCase()));
    };
 
    const getTodos = async () => {
@@ -65,11 +65,12 @@ export default function TodoList({ filters }) {
    const onEdit = async (id, done, text) => {
       try {
          const res = await axiosCreate.put(`/todos/${id}`, {
-            title : text,
+            title: text,
             done,
          });
 
          setTodos(todos.map(todo => (todo.id === id ? { ...todo, text } : todo)));
+         getTodos(res.data);
       } catch (err) {
          console.error('Error:', err);
       }
@@ -104,7 +105,7 @@ export default function TodoList({ filters }) {
 
    const { totalCount, doneCount, notDoneCount } = totalTodo();
 
-   const filtered = getFilteredItem(todos, filters);
+   const filtered = getFilteredItems(todos, filter);
 
    return (
       <div className="todo-container">
@@ -112,17 +113,16 @@ export default function TodoList({ filters }) {
             <input type="text" placeholder="검색어를 입력하세요" value={search} onChange={onChangeSearch} />
          </div>
          <ul className="list">
-            {filtered &&
-               filterTodos().map(todo => (
-                  <TodoItem 
-                     key={todo.id} 
-                     todo={todo} 
-                     onUpdate={onUpdate} 
-                     onDelete={onDelete}
-                     onEdit={onEdit} 
-                     getTodos={getTodos}
-                  />
-               ))}
+            {filtered && filterTodos().map(todo => (
+               <TodoItem
+                  key={todo.id}
+                  todo={todo}
+                  onUpdate={onUpdate}
+                  onDelete={onDelete}
+                  onEdit={onEdit}
+                  getTodos={getTodos}
+               />
+            ))}
          </ul>
          <TodoEditor onCreate={onCreate} />
          <div className="todo-total">
@@ -140,14 +140,12 @@ export default function TodoList({ filters }) {
    );
 }
 
-function getFilteredItem(todos, filters) {
-   if (filters.map(filter => filter === '전체')) {
+function getFilteredItems(todos, filter) {
+   if (filter === 'all') {
       return todos;
-   } else if (filters.map(filter => filter === '완료')) {
-      return todos.map(todo => todo.done === 'true');
-   } else if (filters.map(filter => filter === '미완료')) {
-      return todos.map(todo => todo.done === 'false');
+   } else if (filter == 'active') {
+      return todos.filter(todo => todo.done === false);
+   } else {
+      return todos.filter(todo => todo.done === true);
    }
-   //return todos.done === filters ? '완료' : '미완료';
-   //return todos.filter(todo => todo.done === filter);
 }

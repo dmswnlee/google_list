@@ -3,7 +3,8 @@ import React from 'react';
 export default function TodoHeader({ filters, filter, onFilterChange }) {
    return (
       <header className="todo-header">
-         <button className='delete-all'>전체삭제</button>
+         <button className="delete-all"> delete
+         </button>
          <ul className="filters">
             {filters.map((value, index) => (
                <li key={index}>

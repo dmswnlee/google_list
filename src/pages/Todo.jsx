@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import TodoHeader from '../components/TodoHeader';
 import TodoList from '../components/TodoList';
 
-const filters = ['전체', '미완료', '완료'];
+const filters = ['all', 'active', 'completed'];
 
 export default function Todo() {
    const [filter, setFilter] = useState(filters[0]);
@@ -11,7 +11,7 @@ export default function Todo() {
       <div className="todo">
          <div className="todo-wrapper">
             <TodoHeader filters={filters} filter={filter} onFilterChange={setFilter} />
-            <TodoList filters={filters} />
+            <TodoList filter={filter} />
          </div>
       </div>
    );

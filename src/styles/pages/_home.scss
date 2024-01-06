@@ -6,10 +6,16 @@
    height: $page-height;
    @include center;
    flex-direction: column;
-   gap: 20px;
+   gap: 30px;
 
    .logo {
       margin: 0;
+   }
+
+   .info{
+      color: $placeholder-text;
+      text-align: center;
+      line-height: 1.5;
    }
 
    .search-bar {
@@ -54,7 +60,7 @@
    button {
       padding: 15px;
       border-radius: 10px;
-      background-color: $primary-yellow;
+      background-color: $primary-blue;
       color: $white;
    }
 }

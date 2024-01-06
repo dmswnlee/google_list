@@ -11,6 +11,7 @@
       padding: 30px;
       @include space-between;
       font-size: 18px;
+      border-radius: 10px 10px 0 0;
 
       .delete-all {
          color: $primary-red;
@@ -22,7 +23,7 @@
          gap: 20px;
 
          .filter {
-            color: $primary-yellow;
+            color: $primary-blue;
             font-weight: bold;
             opacity: 0.8;
 
@@ -37,7 +38,7 @@
                   content: '';
                   display: block;
                   margin-top: 5px;
-                  border: 1px solid $primary-yellow;
+                  border: 1px solid $primary-blue;
                }
             }
          }
@@ -78,6 +79,10 @@
                flex: 1 1 0;
                margin-left: 10px;
                font-size: 18px;
+
+               &.checked {
+                  text-decoration: line-through;
+               }
             }
 
             button {
@@ -93,7 +98,7 @@
                }
 
                &:hover {
-                  background-color: $primary-yellow;
+                  background-color: $primary-blue;
                   transform: rotate(15deg) scale(1.2);
                   color: $white;
                }
@@ -114,7 +119,7 @@
 
                .modal-content {
                   width: 300px;
-                  height: 500px;
+                  height: 400px;
                   background-color: $white;
                   border-radius: 20px;
                   padding: 20px;
@@ -161,6 +166,7 @@
       @include center;
       background-color: $border;
       padding: 20px;
+      border-radius: 0 0 10px 10px;
 
       input {
          padding: 20px;
@@ -176,7 +182,7 @@
 
       button {
          height: 61px;
-         background-color: $primary-yellow;
+         background-color: $primary-blue;
          border-radius: 0 10px 10px 0;
 
          &:hover {
@@ -215,13 +221,9 @@
       }
 
       .todo-editor {
-         input {
-            font-size: 24px;
-         }
-
          button {
             width: 150px;
-            height: 70px;
+            height: 60px;
 
             .icon {
                font-size: 32px;
