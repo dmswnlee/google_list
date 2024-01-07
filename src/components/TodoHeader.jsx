@@ -1,10 +1,10 @@
 import React from 'react';
+import logo from '../assets/logo.svg';
 
 export default function TodoHeader({ filters, filter, onFilterChange }) {
    return (
       <header className="todo-header">
-         <button className="delete-all"> delete
-         </button>
+         <h1 className="header-logo">Google List</h1>
          <ul className="filters">
             {filters.map((value, index) => (
                <li key={index}>

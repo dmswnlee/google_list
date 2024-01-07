@@ -1,10 +1,14 @@
 import React, { useEffect, useState, useRef } from 'react';
+import TodoHeader from './TodoHeader';
 import TodoEditor from './TodoEditor';
 import TodoItem from './TodoItem';
 import axiosCreate from '../utils/api';
 import LoadingBar from './LoadingBar';
 
-export default function TodoList({ filter }) {
+const filters = ['all', 'active', 'completed'];
+
+export default function TodoList() {
+   const [filter, setFilter] = useState(filters[0]);
    const [loading, setLoading] = useState(true);
    const [todos, setTodos] = useState([]);
    const orderRef = useRef(0);
@@ -94,6 +98,27 @@ export default function TodoList({ filter }) {
       }
    };
 
+   const handleDeleteAll = () => {
+      const deleteArr = todos.map((todo => (todo.done === true ? todo.id : ''))).filter(ids => ids !== '');
+      if(confirm('완료된 투두를 전체 삭제 하시겠습니까?')) {
+         onDeleteAll(deleteArr);
+      }
+   };
+
+   const onDeleteAll = async todoIds => {
+      try {
+         const res = await axiosCreate.delete(`/todos/deletions`, {
+            data: {
+               todoIds,
+            },
+         });
+         
+         setTodos(todos.filter(todo => todo.done === false))
+      } catch (err) {
+         console.error('Error:', err);
+      }
+   };
+
    const totalTodo = () => {
       const totalCount = todos.length;
       const doneCount = todos.filter(todo => todo.done).length;
@@ -113,6 +138,7 @@ export default function TodoList({ filter }) {
    return (
       <div className="todo-container">
          {loading ? <LoadingBar /> : null}
+         <TodoHeader filters={filters} filter={filter} onFilterChange={setFilter} />
          <div className="todo-search">
             <input type="text" placeholder="검색어를 입력하세요" value={search} onChange={onChangeSearch} />
          </div>
@@ -129,7 +155,7 @@ export default function TodoList({ filter }) {
                   />
                ))}
          </ul>
-         <TodoEditor onCreate={onCreate} />
+         <TodoEditor onCreate={onCreate} handleDeleteAll={handleDeleteAll} />
          <div className="todo-total">
             <p>
                <span className="material-symbols-outlined">check</span>전체 투두: {totalCount}

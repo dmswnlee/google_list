@@ -3,7 +3,7 @@
 
 .todo {
    height: $page-height;
-   @include end;
+   @include center;
    flex-direction: column;
    gap: 20px;
 }
