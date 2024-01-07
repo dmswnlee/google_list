@@ -1,7 +1,7 @@
 import React from 'react';
 import TodoEditModal from './TodoEditModal';
 
-export default function TodoItem({ todo, onUpdate, onDelete, onEdit }) {
+export default function TodoItem({ todo, onUpdate, onDelete, onEdit}) {
    const { id, done, title } = todo;
 
    const handleChange = (e) => {

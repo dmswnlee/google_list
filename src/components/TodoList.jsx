@@ -4,6 +4,7 @@ import TodoEditor from './TodoEditor';
 import TodoItem from './TodoItem';
 import axiosCreate from '../utils/api';
 import LoadingBar from './LoadingBar';
+import { ReactSortable } from 'react-sortablejs';
 
 const filters = ['all', 'active', 'completed'];
 
@@ -11,8 +12,7 @@ export default function TodoList() {
    const [filter, setFilter] = useState(filters[0]);
    const [loading, setLoading] = useState(true);
    const [todos, setTodos] = useState([]);
-   const orderRef = useRef(0);
-
+   //const orderRef = useRef(0);
    const [search, setSearch] = useState('');
 
    const onChangeSearch = e => {
@@ -47,7 +47,6 @@ export default function TodoList() {
       try {
          const res = await axiosCreate.post('/todos', {
             title: text,
-            order: orderRef.current++,
          });
 
          getTodos(res.data);
@@ -99,8 +98,8 @@ export default function TodoList() {
    };
 
    const handleDeleteAll = () => {
-      const deleteArr = todos.map((todo => (todo.done === true ? todo.id : ''))).filter(ids => ids !== '');
-      if(confirm('완료된 투두를 전체 삭제 하시겠습니까?')) {
+      const deleteArr = todos.map(todo => (todo.done === true ? todo.id : '')).filter(ids => ids !== '');
+      if (confirm('완료된 투두를 전체 삭제 하시겠습니까?')) {
          onDeleteAll(deleteArr);
       }
    };
@@ -112,8 +111,23 @@ export default function TodoList() {
                todoIds,
             },
          });
-         
-         setTodos(todos.filter(todo => todo.done === false))
+
+         setTodos(todos.filter(todo => todo.done === false));
+      } catch (err) {
+         console.error('Error:', err);
+      }
+   };
+
+   const handleReorder = () => {
+      const reordered = todos.map(todo => todo.id);
+      onReorder(reordered);
+   };
+
+   const onReorder = async todoIds => {
+      try {
+         const res = await axiosCreate.put(`/todos/reorder`, {
+            todoIds,
+         });
       } catch (err) {
          console.error('Error:', err);
       }
@@ -143,17 +157,19 @@ export default function TodoList() {
             <input type="text" placeholder="검색어를 입력하세요" value={search} onChange={onChangeSearch} />
          </div>
          <ul className="list">
-            {filtered &&
-               filterTodos().map(todo => (
-                  <TodoItem
-                     key={todo.id}
-                     todo={todo}
-                     onUpdate={onUpdate}
-                     onDelete={onDelete}
-                     onEdit={onEdit}
-                     getTodos={getTodos}
-                  />
-               ))}
+            <ReactSortable list={todos} setList={setTodos} animation={200} onEnd={handleReorder()}>
+               {filtered &&
+                  filterTodos().map(todo => (
+                     <TodoItem
+                        key={todo.id}
+                        todo={todo}
+                        onUpdate={onUpdate}
+                        onDelete={onDelete}
+                        onEdit={onEdit}
+                        getTodos={getTodos}
+                     />
+                  ))}
+            </ReactSortable>
          </ul>
          <TodoEditor onCreate={onCreate} handleDeleteAll={handleDeleteAll} />
          <div className="todo-total">

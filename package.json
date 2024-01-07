@@ -13,7 +13,9 @@
     "axios": "^1.6.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.21.1"
+    "react-router-dom": "^6.21.1",
+    "react-sortablejs": "^6.1.4",
+    "sortablejs": "^1.15.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",
