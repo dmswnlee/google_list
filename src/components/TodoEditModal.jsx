@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useRef, useState } from 'react';
 
 export default function TodoEditModal({ todo, onEdit }) {
    const { id, done, title } = todo;
    const [editModalOpen, setEditModalOpen] = useState(false);
    const [text, setText] = useState();
+   const modalClose = useRef();
 
    const handleModal = () => {
       setEditModalOpen(!editModalOpen);
@@ -19,6 +19,12 @@ export default function TodoEditModal({ todo, onEdit }) {
       handleModal();
    };
 
+   const handleModalClose = e => {
+      if (e.target === modalClose.current) {
+         setEditModalOpen(false);
+      }
+   };
+
    return (
       <>
          <div className="edit-modal">
@@ -27,7 +33,11 @@ export default function TodoEditModal({ todo, onEdit }) {
             </button>
          </div>
          {editModalOpen && (
-            <div className="modal-container">
+            <div 
+               className="modal-container" 
+               ref={modalClose} 
+               onClick={handleModalClose}
+            >
                <div className="modal-content">
                   <div className="edit-date">
                      <p>
