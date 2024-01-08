@@ -12,13 +12,14 @@ export default function TodoList() {
    const [filter, setFilter] = useState(filters[0]);
    const [loading, setLoading] = useState(true);
    const [todos, setTodos] = useState([]);
-   //const orderRef = useRef(0);
    const [search, setSearch] = useState('');
 
+   // 검색
    const onChangeSearch = e => {
       setSearch(e.target.value);
    };
 
+   // 총합 필터
    const filterTodos = () => {
       if (search === '') {
          return filtered;
@@ -27,6 +28,21 @@ export default function TodoList() {
       return filtered.filter(todo => todo.title.toLowerCase().includes(search.toLowerCase()));
    };
 
+   const totalTodo = () => {
+      const totalCount = todos.length;
+      const doneCount = todos.filter(todo => todo.done).length;
+      const notDoneCount = totalCount - doneCount;
+
+      return {
+         totalCount,
+         doneCount,
+         notDoneCount,
+      };
+   };
+
+   const { totalCount, doneCount, notDoneCount } = totalTodo();
+
+   // 조회
    const getTodos = async () => {
       try {
          const res = await axiosCreate.get('/todos');
@@ -43,6 +59,7 @@ export default function TodoList() {
       getTodos();
    }, []);
 
+   // 생성
    const onCreate = async text => {
       try {
          const res = await axiosCreate.post('/todos', {
@@ -55,6 +72,7 @@ export default function TodoList() {
       }
    };
 
+   // 업데이트
    const onUpdate = async (id, done, title) => {
       try {
          const res = await axiosCreate.put(`todos/${id}`, {
@@ -68,6 +86,7 @@ export default function TodoList() {
       }
    };
 
+   // 수정
    const onEdit = async (id, done, text) => {
       try {
          const res = await axiosCreate.put(`/todos/${id}`, {
@@ -82,6 +101,7 @@ export default function TodoList() {
       }
    };
 
+   // 삭제
    const onDelete = async id => {
       try {
          const res = await axiosCreate.delete(`/todos/${id}`, {
@@ -97,6 +117,7 @@ export default function TodoList() {
       }
    };
 
+   // 전체 삭제
    const handleDeleteAll = () => {
       const deleteArr = todos.map(todo => (todo.done === true ? todo.id : '')).filter(ids => ids !== '');
       if (confirm('완료된 투두를 전체 삭제 하시겠습니까?')) {
@@ -118,6 +139,7 @@ export default function TodoList() {
       }
    };
 
+   // 
    const handleReorder = () => {
       const reordered = todos.map(todo => todo.id);
       onReorder(reordered);
@@ -133,20 +155,7 @@ export default function TodoList() {
       }
    };
 
-   const totalTodo = () => {
-      const totalCount = todos.length;
-      const doneCount = todos.filter(todo => todo.done).length;
-      const notDoneCount = totalCount - doneCount;
-
-      return {
-         totalCount,
-         doneCount,
-         notDoneCount,
-      };
-   };
-
-   const { totalCount, doneCount, notDoneCount } = totalTodo();
-
+   // 필터링
    const filtered = getFilteredItems(todos, filter);
 
    return (
