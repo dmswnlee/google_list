@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import TodoHeader from './TodoHeader';
 import TodoEditor from './TodoEditor';
 import TodoItem from './TodoItem';
@@ -19,7 +19,6 @@ export default function TodoList() {
       setSearch(e.target.value);
    };
 
-   // 총합 필터
    const filterTodos = () => {
       if (search === '') {
          return filtered;
@@ -28,7 +27,8 @@ export default function TodoList() {
       return filtered.filter(todo => todo.title.toLowerCase().includes(search.toLowerCase()));
    };
 
-   const totalTodo = () => {
+   // 총합 필터
+   const { totalCount, doneCount, notDoneCount } = useMemo(() => {
       const totalCount = todos.length;
       const doneCount = todos.filter(todo => todo.done).length;
       const notDoneCount = totalCount - doneCount;
@@ -38,9 +38,7 @@ export default function TodoList() {
          doneCount,
          notDoneCount,
       };
-   };
-
-   const { totalCount, doneCount, notDoneCount } = totalTodo();
+   }, [todos])
 
    // 조회
    const getTodos = async () => {
