@@ -104,3 +104,14 @@
       }
    }
 }
+
+@include responsive(mobile) {
+   .header {
+      .header-wrapper {
+         .user-name {
+            display: none;
+         }
+      }
+   }
+}
+
