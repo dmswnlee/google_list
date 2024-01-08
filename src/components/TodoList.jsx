@@ -27,7 +27,7 @@ export default function TodoList() {
       return filtered.filter(todo => todo.title.toLowerCase().includes(search.toLowerCase()));
    };
 
-   // 총합 필터
+   // 합계 필터
    const { totalCount, doneCount, notDoneCount } = useMemo(() => {
       const totalCount = todos.length;
       const doneCount = todos.filter(todo => todo.done).length;
@@ -137,7 +137,7 @@ export default function TodoList() {
       }
    };
 
-   // 
+   // 순서변경
    const handleReorder = () => {
       const reordered = todos.map(todo => todo.id);
       onReorder(reordered);
