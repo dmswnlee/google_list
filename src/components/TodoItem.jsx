@@ -5,7 +5,7 @@ import { useTodoStore } from '../store/useTodoStore';
 export default function TodoItem({ todo }) {
    const { id, done, title } = todo;
 
-   const {onUpdate, onDelete, onEdit} = useTodoStore();
+   const {onUpdate, onDelete } = useTodoStore();
 
    const handleChange = (e) => {
       onUpdate(id, done, title);

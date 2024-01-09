@@ -19,7 +19,6 @@ export const useTodoStore = create(set => ({
          });
 
          set(state => ({ todos: [...state.todos, res.data] }));
-         console.log(res.data);
       } catch (err) {
          console.error('Error:', err);
       }

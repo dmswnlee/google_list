@@ -2,7 +2,6 @@ import React, { useRef, useState } from 'react';
 import { useTodoStore } from '../store/useTodoStore';
 
 export default function TodoEditor({ handleDeleteAll }) {
-
    const { onCreate } = useTodoStore();
 
    const [text, setText] = useState('');
@@ -20,7 +19,7 @@ export default function TodoEditor({ handleDeleteAll }) {
    };
 
    return (
-      <div className='todo-footer'>
+      <div className="todo-footer">
          <form className="todo-editor" onSubmit={handleSubmit}>
             <input type="text" placeholder="Todo를 입력해주세요." value={text} onChange={handleChange} ref={inputRef} />
             <button>

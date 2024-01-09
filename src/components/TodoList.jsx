@@ -10,6 +10,7 @@ import { useTodoStore } from '../store/useTodoStore';
 const filters = ['all', 'active', 'completed'];
 
 export default function TodoList() {
+
    const { getTodos, onDeleteAll, onReorder, todos, setTodos } = useTodoStore();
 
    const [filter, setFilter] = useState(filters[0]);
@@ -73,7 +74,13 @@ export default function TodoList() {
          </div>
          <ul className="list">
             <ReactSortable list={todos} setList={setTodos} animation={200} onEnd={handleReorder()}>
-               {filtered && filterTodos().map(todo => <TodoItem key={todo.id} todo={todo} />)}
+               {filtered &&
+                  filterTodos().map(todo => (
+                     <TodoItem
+                        key={todo.id}
+                        todo={todo}
+                     />
+                  ))}
             </ReactSortable>
          </ul>
          <TodoEditor handleDeleteAll={handleDeleteAll} />
