@@ -1,6 +1,10 @@
 import React, { useRef, useState } from 'react';
+import { useTodoStore } from '../store/useTodoStore';
 
-export default function TodoEditModal({ todo, onEdit }) {
+export default function TodoEditModal({ todo }) {
+
+   const { onEdit } = useTodoStore();
+
    const { id, done, title } = todo;
    const [editModalOpen, setEditModalOpen] = useState(false);
    const [text, setText] = useState();

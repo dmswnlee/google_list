@@ -1,8 +1,11 @@
 import React from 'react';
 import TodoEditModal from './TodoEditModal';
+import { useTodoStore } from '../store/useTodoStore';
 
-export default function TodoItem({ todo, onUpdate, onDelete, onEdit}) {
+export default function TodoItem({ todo }) {
    const { id, done, title } = todo;
+
+   const {onUpdate, onDelete, onEdit} = useTodoStore();
 
    const handleChange = (e) => {
       onUpdate(id, done, title);
@@ -18,7 +21,7 @@ export default function TodoItem({ todo, onUpdate, onDelete, onEdit}) {
          <label htmlFor={id} className={done === true ? 'checked' : ''}>
             {title}
          </label>
-         <TodoEditModal todo={todo} onEdit={onEdit} />
+         <TodoEditModal todo={todo} />
          <button onClick={handleDelete}>
             <span className="icon material-symbols-outlined">delete</span>
          </button>

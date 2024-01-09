@@ -1,17 +1,19 @@
-import React, { useEffect, useState, useRef, useMemo } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import TodoHeader from './TodoHeader';
 import TodoEditor from './TodoEditor';
 import TodoItem from './TodoItem';
 import axiosCreate from '../utils/api';
 import LoadingBar from './LoadingBar';
 import { ReactSortable } from 'react-sortablejs';
+import { useTodoStore } from '../store/useTodoStore';
 
 const filters = ['all', 'active', 'completed'];
 
 export default function TodoList() {
+   const { getTodos, onDeleteAll, onReorder, todos, setTodos } = useTodoStore();
+
    const [filter, setFilter] = useState(filters[0]);
    const [loading, setLoading] = useState(true);
-   const [todos, setTodos] = useState([]);
    const [search, setSearch] = useState('');
 
    // 검색
@@ -38,82 +40,12 @@ export default function TodoList() {
          doneCount,
          notDoneCount,
       };
-   }, [todos])
-
-   // 조회
-   const getTodos = async () => {
-      try {
-         const res = await axiosCreate.get('/todos');
-
-         setTodos(res.data);
-         setLoading(false);
-         console.log(res.data);
-      } catch (err) {
-         console.error('Error:', err);
-      }
-   };
+   }, [todos]);
 
    useEffect(() => {
       getTodos();
+      setLoading(false);
    }, []);
-
-   // 생성
-   const onCreate = async text => {
-      try {
-         const res = await axiosCreate.post('/todos', {
-            title: text,
-         });
-
-         getTodos(res.data);
-      } catch (err) {
-         console.error('Error:', err);
-      }
-   };
-
-   // 업데이트
-   const onUpdate = async (id, done, title) => {
-      try {
-         const res = await axiosCreate.put(`todos/${id}`, {
-            title,
-            done: !done,
-         });
-
-         setTodos(todos.map(todo => (todo.id === id ? { ...todo, done: !todo.done } : todo)));
-      } catch (err) {
-         console.error('Error:', err);
-      }
-   };
-
-   // 수정
-   const onEdit = async (id, done, text) => {
-      try {
-         const res = await axiosCreate.put(`/todos/${id}`, {
-            title: text,
-            done,
-         });
-
-         setTodos(todos.map(todo => (todo.id === id ? { ...todo, text } : todo)));
-         getTodos(res.data);
-      } catch (err) {
-         console.error('Error:', err);
-      }
-   };
-
-   // 삭제
-   const onDelete = async id => {
-      try {
-         const res = await axiosCreate.delete(`/todos/${id}`, {
-            data: {
-               id,
-            },
-         });
-
-         const handleDelete = todos.filter(todo => todo.id !== id);
-         setTodos(handleDelete);
-      } catch (err) {
-         console.error('Error:', err);
-      }
-   };
 
    // 전체 삭제
    const handleDeleteAll = () => {
@@ -123,34 +55,10 @@ export default function TodoList() {
       }
    };
 
-   const onDeleteAll = async todoIds => {
-      try {
-         const res = await axiosCreate.delete(`/todos/deletions`, {
-            data: {
-               todoIds,
-            },
-         });
-
-         setTodos(todos.filter(todo => todo.done === false));
-      } catch (err) {
-         console.error('Error:', err);
-      }
-   };
-
    // 순서변경
    const handleReorder = () => {
       const reordered = todos.map(todo => todo.id);
       onReorder(reordered);
-   };
-
-   const onReorder = async todoIds => {
-      try {
-         const res = await axiosCreate.put(`/todos/reorder`, {
-            todoIds,
-         });
-      } catch (err) {
-         console.error('Error:', err);
-      }
    };
 
    // 필터링
@@ -165,20 +73,10 @@ export default function TodoList() {
          </div>
          <ul className="list">
             <ReactSortable list={todos} setList={setTodos} animation={200} onEnd={handleReorder()}>
-               {filtered &&
-                  filterTodos().map(todo => (
-                     <TodoItem
-                        key={todo.id}
-                        todo={todo}
-                        onUpdate={onUpdate}
-                        onDelete={onDelete}
-                        onEdit={onEdit}
-                        getTodos={getTodos}
-                     />
-                  ))}
+               {filtered && filterTodos().map(todo => <TodoItem key={todo.id} todo={todo} />)}
             </ReactSortable>
          </ul>
-         <TodoEditor onCreate={onCreate} handleDeleteAll={handleDeleteAll} />
+         <TodoEditor handleDeleteAll={handleDeleteAll} />
          <div className="todo-total">
             <p>
                <span className="material-symbols-outlined">check</span>전체 투두: {totalCount}

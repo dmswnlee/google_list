@@ -1,6 +1,10 @@
 import React, { useRef, useState } from 'react';
+import { useTodoStore } from '../store/useTodoStore';
 
-export default function TodoEditor({ onCreate, handleDeleteAll }) {
+export default function TodoEditor({ handleDeleteAll }) {
+
+   const { onCreate } = useTodoStore();
+
    const [text, setText] = useState('');
    const inputRef = useRef();
 
