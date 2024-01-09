@@ -233,6 +233,19 @@
    }
 }
 
+@include responsive(mobile) {
+   .todo-wrapper {
+      width: 100%;
+      padding: 10px;
+
+      .todo-editor {
+         input {
+            width: 200px;
+         }
+      }
+   }
+}
+
 @include responsive(tablet) {
    .todo-wrapper {
       width: 600px;

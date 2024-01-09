@@ -1,7 +1,14 @@
+$sm-breakpoint: 420px;
 $md-breakpoint: 768px;
 $lg-breakpoint: 1200px;
 
 @mixin responsive($screen) {
+   @if ($screen == 'mobile') {
+      @media screen and (max-width: $sm-breakpoint) {
+         @content;
+      }
+   } 
+
    @if ($screen == 'tablet') {
       @media screen and (min-width: $md-breakpoint) {
          @content;

@@ -16,6 +16,7 @@
       color: $placeholder-text;
       text-align: center;
       line-height: 1.5;
+      padding: 10px;
    }
 
    .search-bar {
@@ -72,6 +73,10 @@
    100% {
       width: 100%;
    }
+}
+
+@include responsive(mobile) {
+
 }
 
 @include responsive(tablet) {
