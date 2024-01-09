@@ -25,7 +25,7 @@ export const useTodoStore = create(set => ({
    },
    onUpdate: async (id, done, title) => {
       try {
-         const res = await axiosCreate.put(`todos/${id}`, {
+         await axiosCreate.put(`todos/${id}`, {
             title,
             done: !done,
          });
@@ -39,7 +39,7 @@ export const useTodoStore = create(set => ({
    },
    onEdit: async (id, done, text) => {
       try {
-         const res = await axiosCreate.put(`/todos/${id}`, {
+         await axiosCreate.put(`/todos/${id}`, {
             title: text,
             done,
          });
@@ -53,7 +53,7 @@ export const useTodoStore = create(set => ({
    },
    onDelete: async id => {
       try {
-         const res = await axiosCreate.delete(`/todos/${id}`, {
+         await axiosCreate.delete(`/todos/${id}`, {
             data: {
                id,
             },
@@ -68,7 +68,7 @@ export const useTodoStore = create(set => ({
    },
    onDeleteAll: async todoIds => {
       try {
-         const res = await axiosCreate.delete('/todos/deletions', {
+         await axiosCreate.delete('/todos/deletions', {
             data: {
                todoIds,
             },
@@ -83,7 +83,7 @@ export const useTodoStore = create(set => ({
    },
    onReorder: async todoIds => {
       try {
-         const res = await axiosCreate.put('/todos/reorder', {
+         await axiosCreate.put('/todos/reorder', {
             todoIds,
          });
       } catch (err) {
