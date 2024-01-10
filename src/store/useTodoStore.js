@@ -4,10 +4,11 @@ import axiosCreate from '../utils/api';
 export const useTodoStore = create(set => ({
    todos: [],
    setTodos: todos => set({ todos }),
-   getTodos: async () => {
+   getTodos: async setLoading => {
       try {
          const res = await axiosCreate.get('/todos');
          set({ todos: res.data });
+         setLoading(false);
       } catch (err) {
          console.error('Error:', err);
       }

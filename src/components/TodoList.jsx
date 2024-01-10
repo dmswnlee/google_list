@@ -2,7 +2,6 @@ import React, { useEffect, useState, useMemo } from 'react';
 import TodoHeader from './TodoHeader';
 import TodoEditor from './TodoEditor';
 import TodoItem from './TodoItem';
-import axiosCreate from '../utils/api';
 import LoadingBar from './LoadingBar';
 import { ReactSortable } from 'react-sortablejs';
 import { useTodoStore } from '../store/useTodoStore';
@@ -10,7 +9,6 @@ import { useTodoStore } from '../store/useTodoStore';
 const filters = ['all', 'active', 'completed'];
 
 export default function TodoList() {
-
    const { getTodos, onDeleteAll, onReorder, todos, setTodos } = useTodoStore();
 
    const [filter, setFilter] = useState(filters[0]);
@@ -44,8 +42,7 @@ export default function TodoList() {
    }, [todos]);
 
    useEffect(() => {
-      getTodos();
-      setLoading(false);
+      getTodos(setLoading);
    }, []);
 
    // 전체 삭제
@@ -74,13 +71,7 @@ export default function TodoList() {
          </div>
          <ul className="list">
             <ReactSortable list={todos} setList={setTodos} animation={200} onEnd={handleReorder()}>
-               {filtered &&
-                  filterTodos().map(todo => (
-                     <TodoItem
-                        key={todo.id}
-                        todo={todo}
-                     />
-                  ))}
+               {filtered && filterTodos().map(todo => <TodoItem key={todo.id} todo={todo} />)}
             </ReactSortable>
          </ul>
          <TodoEditor handleDeleteAll={handleDeleteAll} />
